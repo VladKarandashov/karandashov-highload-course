@@ -1,2 +1,10 @@
 rootProject.name = "karandashov-highload-course"
-include("social-network-service")
+
+include("monolith-social-network-service")
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
