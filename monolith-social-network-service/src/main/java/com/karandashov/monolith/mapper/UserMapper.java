@@ -22,5 +22,11 @@ public interface UserMapper {
         return localDate.atStartOfDay().atZone(ZoneId.systemDefault());
     }
 
+    @Mapping(target = "birthDate", source = "birthDate", qualifiedByName = "toLocalDate")
     User toDto(UserEntity userEntity);
+
+    @Named("toLocalDate")
+    default LocalDate toLocalDate(ZonedDateTime zonedDateTime) {
+        return zonedDateTime.toLocalDate();
+    }
 }

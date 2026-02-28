@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,8 +31,15 @@ public class JdbcUserRepository implements UserRepository {
             """;
 
     private static final String FIND_BY_ID_SQL = """
-            SELECT ("id", "passwordHash", "firstName", "lastName", "birthDate", "biography", "city") 
+            SELECT "id", "passwordHash", "firstName", "lastName", "birthDate", "biography", "city"
             FROM users WHERE id = ?
+            """;
+
+    private static final String SEARCH_SQL = """
+            SELECT "id", "passwordHash", "firstName", "lastName", "birthDate", "biography", "city"
+            FROM users
+            WHERE "firstName" LIKE ? AND "lastName" LIKE ?
+            ORDER BY id
             """;
 
     private static final String DELETE_ALL_SQL = "DELETE FROM users";
@@ -68,6 +77,26 @@ public class JdbcUserRepository implements UserRepository {
                 }
             }
             return Optional.empty();
+        } catch (SQLException e) {
+            throw new BaseException(Error.SQL_FAILED_GET_USER_BY_ID, e);
+        }
+    }
+
+    @Override
+    public List<UserEntity> search(String firstName, String lastName) {
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement ps = conn.prepareStatement(SEARCH_SQL)) {
+
+            ps.setString(1, firstName + "%");
+            ps.setString(2, lastName + "%");
+            try (ResultSet rs = ps.executeQuery()) {
+                List<UserEntity> result = new ArrayList<>();
+                while (rs.next()) {
+                    result.add(mapSingleUser(rs));
+                }
+                return result;
+            }
         } catch (SQLException e) {
             throw new BaseException(Error.SQL_FAILED_GET_USER_BY_ID, e);
         }

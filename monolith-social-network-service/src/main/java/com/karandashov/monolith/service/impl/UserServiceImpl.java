@@ -1,5 +1,6 @@
 package com.karandashov.monolith.service.impl;
 
+import com.karandashov.monolith.dto.User;
 import com.karandashov.monolith.dto.request.LoginRequest;
 import com.karandashov.monolith.dto.request.RegisterRequest;
 import com.karandashov.monolith.dto.response.LoginResponse;
@@ -15,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -44,13 +47,27 @@ public class UserServiceImpl implements UserService {
         var userEntity = userRepository.findById(request.userId())
                 .orElseThrow(() -> new BaseException(Error.BAD_REQUEST_USER_NOT_FOUND));
         var expectedPasswordHash = userEntity.getPasswordHash();
-        var requestPasswordHash = passwordEncoder.encode(request.password());
-        if (!expectedPasswordHash.equals(requestPasswordHash)) {
+        if (!passwordEncoder.matches(request.password(), expectedPasswordHash)) {
             throw new BaseException(Error.BAD_REQUEST_INVALID_PASSWORD);
         }
         var user = userMapper.toDto(userEntity);
         var token = UUID.randomUUID();
         sessionRepository.save(token, user);
         return new LoginResponse(token);
+    }
+
+    @Override
+    public User getUserById(UUID id) {
+        return userRepository.findById(id)
+                .map(userMapper::toDto)
+                .orElseThrow(() -> new BaseException(Error.BAD_REQUEST_USER_NOT_FOUND));
+    }
+
+    @Override
+    public List<User> searchUsers(String firstName, String lastName) {
+        return userRepository.search(firstName, lastName)
+                .stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
