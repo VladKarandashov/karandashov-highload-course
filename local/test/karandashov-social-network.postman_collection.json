@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "1a73eeaa-0d81-45c7-b1e2-0ebc77a4ea5c",
+		"name": "karandashov-social-network",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27363900"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"first_name\": \"Konstantin\",\n  \"second_name\": \"Osipov\",\n  \"birthdate\": \"1980-01-01\",\n  \"biography\": \"Highload developer\",\n  \"city\": \"Moscow\",\n  \"password\": \"secret-password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/user/register"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"cc5a1ee6-34dc-4c44-9c1a-016a5a4c3f3a\",\n    \"password\": \"secret-password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/login"
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/user/get/cc5a1ee6-34dc-4c44-9c1a-016a5a4c3f3a"
+			},
+			"response": []
+		},
+		{
+			"name": "searchUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/search?first_name=Konst&last_name=Osi",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"search"
+					],
+					"query": [
+						{
+							"key": "first_name",
+							"value": "Konst"
+						},
+						{
+							"key": "last_name",
+							"value": "Osi"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
