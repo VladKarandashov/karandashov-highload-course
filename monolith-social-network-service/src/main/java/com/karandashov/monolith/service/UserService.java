@@ -18,4 +18,6 @@ public interface UserService {
     User getUserById(UUID id);
 
     List<User> searchUsers(String firstName, String lastName);
+
+    User checkAuth(UUID token);
 }

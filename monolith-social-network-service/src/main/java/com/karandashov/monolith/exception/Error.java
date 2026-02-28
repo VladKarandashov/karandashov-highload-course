@@ -9,6 +9,8 @@ public enum Error {
     BAD_REQUEST_USER_NOT_FOUND(HttpStatus.NOT_FOUND, 4001, "User not found"),
     BAD_REQUEST_INVALID_PASSWORD(HttpStatus.BAD_REQUEST, 4002, "Incorrect password"),
 
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, 4010, "Unauthorized"),
+
     UNEXPECTED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 5000, "Unexpected error"),
 
     SQL_FAILED_SAVE_USER(HttpStatus.INTERNAL_SERVER_ERROR, 5001, "Failed to save user"),

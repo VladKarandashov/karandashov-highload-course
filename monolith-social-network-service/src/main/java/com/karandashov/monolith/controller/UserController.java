@@ -23,9 +23,7 @@ public class UserController {
     @PostMapping("/register")
     public RegisterResponse register(@Valid @RequestBody RegisterRequest request) {
         log.info("Register request: {}", request);
-        var response = userService.register(request);
-        log.info("Register response: {}", response);
-        return response;
+        return userService.register(request);
     }
 
     @GetMapping("/get/{id}")

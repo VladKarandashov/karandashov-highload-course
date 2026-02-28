@@ -79,6 +79,33 @@ public class UserApiTest extends BaseWithPostgresTest {
     }
 
     @Test
+    void successMeTest() throws Exception {
+        var registerResponse = userService.register(new RegisterRequest(
+                "test-password",
+                "FirstName",
+                "LastName",
+                LocalDate.now(),
+                "test-biography",
+                "test-city"
+        ));
+        var userId = registerResponse.userId();
+
+        var loginResponse = userService.login(new com.karandashov.monolith.dto.request.LoginRequest(
+                userId,
+                "test-password"
+        ));
+        var token = loginResponse.token();
+
+        mockMvc.perform(post("/me")
+                        .header("Authorization", "Bearer " + token))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(userId.toString()))
+                .andExpect(jsonPath("$.first_name").value("FirstName"))
+                .andExpect(jsonPath("$.second_name").value("LastName"));
+    }
+
+    @Test
     void successGetUserTest() throws Exception {
         var registerResponse = userService.register(new RegisterRequest(
                 "test-password",

@@ -70,4 +70,10 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public User checkAuth(UUID token) {
+        return sessionRepository.get(token)
+                .orElseThrow(() -> new BaseException(Error.UNAUTHORIZED));
+    }
 }
