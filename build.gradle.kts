@@ -14,8 +14,13 @@ subprojects {
     plugins.withId("java") {
         extensions.configure<JavaPluginExtension> {
             toolchain {
-                languageVersion.set(JavaLanguageVersion.of(25))
+                languageVersion.set(JavaLanguageVersion.of(21))
             }
+        }
+
+        dependencies {
+            add("implementation", platform(libs.spring.boot.bom))
+            add("testImplementation", platform(libs.spring.boot.bom))
         }
     }
 }

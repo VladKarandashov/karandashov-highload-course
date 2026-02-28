@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-table-users" author="karandashov">
+
+        <createTable tableName="users">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="passwordHash" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="firstName" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastName" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birthDate" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="biography" type="text">
+            </column>
+            <column name="city" type="varchar(100)">
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

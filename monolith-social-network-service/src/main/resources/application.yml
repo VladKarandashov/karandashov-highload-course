@@ -1,0 +1,24 @@
+database:
+  url: ${DATABASE_URL}
+  username: ${DATABASE_USERNAME}
+  password: ${DATABASE_PASSWORD}
+  schema: ${DATABASE_SCHEMA}
+  connection-pool:
+    maximum-pool-size: 10
+    minimum-idle: 5
+    idle-timeout: 300000      # 5 минут
+    max-lifetime: 1800000     # 30 минут
+    connection-timeout: 30000 # 30 секунд
+
+spring:
+  application:
+    name: monolith-social-network-service
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    default-schema: ${database.schema}
+
+logging:
+  level:
+    root: INFO
+    com.karandashov: DEBUG

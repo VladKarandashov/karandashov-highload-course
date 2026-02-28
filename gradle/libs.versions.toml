@@ -1,10 +1,37 @@
 [versions]
 junit = "6.0.3"
+spring-boot = "4.0.3"
+mapstruct = "1.6.3"
+lombok = "1.18.36"
+mapstruct-lombok = "0.2.0"
+test-containers = "1.21.4"
 
 [libraries]
+spring-boot-bom = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
+
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-liquibase = { module = "org.springframework.boot:spring-boot-starter-liquibase" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-webmvc-test = { module = "org.springframework.boot:spring-boot-starter-webmvc-test" }
+
+spring-security-crypto = {module = "org.springframework.security:spring-security-crypto"}
+
+postgresql = { module = "org.postgresql:postgresql" }
+
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+lombok-mapstruct-binding = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "mapstruct-lombok" }
+
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 
-[plugins]
+testcontainers-engine = { module = "org.testcontainers:testcontainers", version.ref = "test-containers" }
+testcontainers-junit = { module = "org.testcontainers:junit-jupiter", version.ref = "test-containers" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "test-containers" }
 
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
