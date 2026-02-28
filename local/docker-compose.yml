@@ -1,0 +1,43 @@
+networks:
+  social-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres-database
+    restart: no
+    networks:
+      - social-network
+    env_file:
+      - ./local.env
+    command: [ "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - postgres_data:/var/lib/postgresql
+    entrypoint: [ "bash", "-c", "docker-entrypoint.sh postgres" ]
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U test -d social_network_database" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  monolith-social-network-service:
+    build: ./../monolith-social-network-service
+    container_name: monolith-social-network-service
+    restart: no
+    networks:
+      - social-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ./local.env
+    tmpfs:
+      - /tmp
