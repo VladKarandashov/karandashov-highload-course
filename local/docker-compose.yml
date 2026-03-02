@@ -12,6 +12,8 @@ services:
     restart: no
     networks:
       - social-network
+    ports:
+      - "5432:5432"
     env_file:
       - ./local.env
     command: [ "postgres", "-c", "log_statement=all" ]
